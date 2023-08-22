@@ -12,25 +12,12 @@ connectDB()
 app.use(express.json()); //middleware function - for parsing json to req body
 app.use(cors());         // middleware function - for CORS
 
-// Defining a model for the user data collection
-// const UserData = mongoose.model('userdata', userDataSchema); 
-//mongoose.model fn(takes 2 parameter collection name and schema) is ued to create model which is used to add new data and save it
-//UserData is model created, userdata is collection name in mongoose, userDataSchema is schema
+const { getUsers } = require('./controller/usersController')
 
-app.get('/users', (req, res) => {
-    UserData.find()
-      .then((userData) => {
-        res.json(userData);
-      })
-      .catch((err) => {
-        console.log('Error fetching user data:', err);
-        res.json({ success: false });
-      });
-  });
-  
+app.get('/users', getUsers);
 
 app.post('/', (req, res) => { // starts here 
-  console.log(req.body);
+  // console.log(req.body);
 
   // Creating a new user data object from the request body
   const userData = new UserData({ //userData is new object being creted using UserData from the req body
@@ -51,12 +38,12 @@ app.post('/', (req, res) => { // starts here
     religion: req.body.religion,
     mStatus: req.body.mStatus,
     bloodGroup: req.body.bloodGroup,
-    nationality: req.body.nationality,
+    nationality: req.body.nationality, 
   });
 
   
   // Saving the user data to the MongoDB Atlas database
-  userData.save() // using save fn the new object created above is saved in database
+  userData.save() // using save func() the new object created above is saved in database
     .then(() => {
       console.log('User data saved successfully');//if successful
       res.json({ success: true });

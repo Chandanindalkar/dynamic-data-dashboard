@@ -23,4 +23,7 @@ const userDataSchema = new mongoose.Schema({
   
 });
 
+// Defining a model for the user data collection
 module.exports = mongoose.model('userData', userDataSchema)
+//mongoose.model fn(takes 2 parameter collection name and schema) is ued to create model which is used to add new data and save it
+//UserData is model created, userdata is collection name in mongoose, userDataSchema is schema
