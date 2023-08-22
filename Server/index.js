@@ -1,21 +1,18 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
+const colors = require('colors');
 const cors = require('cors');
+const { connectDB } = require('./config/db')
+
 const mongoose = require('mongoose');
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
+
+connectDB()
 
 app.use(express.json()); //middleware function - for parsing json to req body
 app.use(cors());         // middleware function - for CORS
-
-// Connecting to MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,     //tells Mongoose to use the MongoDB driver's new URL parser instead of the previous one
-  useUnifiedTopology: true,
-})
-.then(() => console.log('Connected to MongoDB Atlas'))
-.catch((err) => console.log('Error connecting to MongoDB Atlas:', err));
 
 // Defining a schema for the user data
 const userDataSchema = new mongoose.Schema({
